@@ -1,31 +1,45 @@
-<!-- src/app/report-simple/report-simple.component.html -->
 <mat-toolbar color="primary">
   <span>Continuous Mat Table</span>
 </mat-toolbar>
 
 <mat-card>
-  <div class="toolbar-row">
-    <h3>User List</h3>
-
-    <div class="actions">
-      <button mat-raised-button color="primary" (click)="generatePdf()" [disabled]="generating">
-        {{ generating ? 'Generating…' : 'Generate PDF' }}
-      </button>
-
-      <!-- show fallback download link if print was blocked or user prefers download -->
-      <a *ngIf="lastPdfUrl" [href]="lastPdfUrl" download="report.pdf" style="margin-left:12px;">
-        Download PDF
-      </a>
-    </div>
-  </div>
-
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" aria-label="User table">
-    <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
-      <th mat-header-cell *matHeaderCellDef>{{ columnLabels[col] || col }}</th>
-      <td mat-cell *matCellDef="let row">{{ row[col] }}</td>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.id }}</mat-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.email }}</mat-cell>
+    </ng-container>
+
+    <!-- Role Column -->
+    <ng-container matColumnDef="role">
+      <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.role }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
 </mat-card>
+
+<!-- This footer is hidden on screen, visible on print -->
+ <div class="print-header">
+  <h1>This is the report header on every page</h1>
+  <span class="date">{{ today | date:'mediumDate' }}</span>
+ </div>
+<div class="print-footer">
+  <span class="extra-info"> Confidential Report, this contains <strong>protected health information</strong>, please be sure to cautiously save it and not let anyone unless authorized view the report</span>
+  <br/>
+  <img src="https://angular.io/assets/images/logos/angular/angular.png" alt="logo" height="20">
+</div>

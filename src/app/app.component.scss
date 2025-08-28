@@ -1,6 +1,47 @@
-mat-card { margin: 16px; padding: 16px; }
-.toolbar-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
-.actions { display:flex; align-items:center; gap:8px; }
-table { width:100%; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: 13px; }
-th { text-align:left; padding:8px 6px; font-weight:600; }
-td { padding:6px; }
+/* Hide by default */
+.print-header,
+.print-footer {
+  display: none;
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
+
+  .print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-bottom: 1px solid #ccc;
+    background: white;
+    height: 40px; /* reserve height */
+  }
+
+  .print-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 4px 12px;
+    font-size: 12px;
+    border-top: 1px solid #ccc;
+    background: white;
+    height: 30px; /* reserve height */
+  }
+
+  /* Make room so content doesn't overlap header/footer */
+  mat-card {
+    margin-top: 60px;   /* >= header height */
+    margin-bottom: 50px; /* >= footer height */
+  }
+}
